@@ -831,15 +831,14 @@ readgcam <- function(gcamdatabase = NULL,
 
       if(!is.null(gcamdata_files)){
         if(
-          file.exists(gcamdata_files[["/inst/extdata/gcam-usa/calibrated_techs_dispatch_usa"]]) &
-          file.exists(gcamdata_files[["/inst/extdata/gcam-usa/A23.elec_tech_mapping_cool"]])){
+          file.exists(gcamdata_files[["/inst/extdata/gcam-usa/A23.elecS_tech_mapping_cool"]])){
       # Read in additional files
-      add_techs <- tibble::as_tibble(gcamdata_files[["/inst/extdata/gcam-usa/calibrated_techs_dispatch_usa"]]) %>%
+      add_techs <- tibble::as_tibble(gcamdata_files[["/inst/extdata/gcam-usa/A23.elecS_tech_mapping_cool"]]) %>%
         dplyr::select(class1 = minicam.energy.input,
                       class2a = technology) %>%
-        dplyr::left_join(tibble::as_tibble(gcamdata_files[["/inst/extdata/gcam-usa/A23.elec_tech_mapping_cool"]]) %>%
-                           dplyr::select(class2a=technology,
-                                         class2 = to.technology)) %>%
+        # dplyr::left_join(tibble::as_tibble(gcamdata_files[["/inst/extdata/gcam-usa/A23.elec_tech_mapping_cool"]]) %>%
+        #                    dplyr::select(class2a=technology,
+        #                                  class2 = to.technology)) %>%
         dplyr::select(class1,class2) %>%
         dplyr::filter(class1!=""); add_techs
 
@@ -963,7 +962,7 @@ readgcam <- function(gcamdatabase = NULL,
       }
 
     # US S-Curve
-    tibble::as_tibble(gcamdata_files[["/outputs/L2244.TechSCurve_nuc_gen2_USA"]]) %>%
+    tibble::as_tibble(gcamdata_files[["/outputs/L2244.StubTechSCurve_nuc_gen2_USA"]]) %>%
       dplyr::select(subRegion = "region",
                     class1 = "subsector",
                     class2 = "technology",
@@ -972,7 +971,7 @@ readgcam <- function(gcamdatabase = NULL,
                     classLabel2 = "technology",
                     param = paramx,
                     region = "USA") %>%
-      dplyr::bind_rows(tibble::as_tibble(gcamdata_files[["/outputs/L223.TechSCurve_Dispatch"]]) %>%
+      dplyr::bind_rows(tibble::as_tibble(gcamdata_files[["/outputs/L2233.GlobalTechSCurve_elecS_cool_USA"]]) %>%
                   dplyr::select(subRegion = "region",
                                 class1 = "subsector",
                                 class2 = "technology",
@@ -981,7 +980,7 @@ readgcam <- function(gcamdatabase = NULL,
                                 classLabel2 = "technology",
                                 param = paramx,
                                 region = "USA")) %>%
-      dplyr::bind_rows(tibble::as_tibble(gcamdata_files[["/outputs/L2241.TechSCurve_coalret_vintage_dispatch_gcamusa"]]) %>%
+      dplyr::bind_rows(tibble::as_tibble(gcamdata_files[["/outputs/L2241.StubTechSCurve_coal_vintage_USA"]]) %>%
                   dplyr::select(subRegion = "region",
                                 class1 = "subsector",
                                 class2 = "technology",
@@ -1070,7 +1069,7 @@ readgcam <- function(gcamdatabase = NULL,
     }
 
     # US S-Curve
-    tibble::as_tibble(gcamdata_files[["/outputs/L223.TechLifetime_Dispatch"]]) %>%
+    tibble::as_tibble(gcamdata_files[["/outputs/L2233.GlobalTechLifetime_elecS_cool_USA"]]) %>%
       dplyr::select(subRegion = "region",
                     class1 = "subsector",
                     class2 = "technology",
@@ -1078,16 +1077,16 @@ readgcam <- function(gcamdatabase = NULL,
       dplyr::mutate(classLabel1 = "subsector",
                     classLabel2 = "technology",
                     param = paramx,
-                    region = "USA") %>%
-      dplyr::bind_rows(tibble::as_tibble(gcamdata_files[["/outputs/L2242.TechLifetime_hydro"]]) %>%
-                  dplyr::select(subRegion = "region",
-                                class1 = "subsector",
-                                class2 = "technology",
-                                year,lifetime) %>%
-                  dplyr::mutate(classLabel1 = "subsector",
-                                classLabel2 = "technology",
-                                param = paramx,
-                                region = "USA")) -> elec_lifetime_us
+                    region = "USA") -> elec_lifetime_us
+      # dplyr::bind_rows(tibble::as_tibble(gcamdata_files[["/outputs/L2242.TechLifetime_hydro"]]) %>%
+      #             dplyr::select(subRegion = "region",
+      #                           class1 = "subsector",
+      #                           class2 = "technology",
+      #                           year,lifetime) %>%
+      #             dplyr::mutate(classLabel1 = "subsector",
+      #                           classLabel2 = "technology",
+      #                           param = paramx,
+      #                           region = "USA")) -> elec_lifetime_us
 
     # Global S-Curve
     tibble::as_tibble(gcamdata_files[["/outputs/L2233.GlobalTechLifetime_elec_cool"]]) %>%
@@ -1235,15 +1234,14 @@ readgcam <- function(gcamdatabase = NULL,
       # Read in additional files
       if(!is.null(gcamdata_files)){
         if(
-          file.exists(gcamdata_files[["/inst/extdata/gcam-usa/calibrated_techs_dispatch_usa"]]) &
-          file.exists(gcamdata_files[["/inst/extdata/gcam-usa/A23.elec_tech_mapping_cool"]])){
+          file.exists(gcamdata_files[["/inst/extdata/gcam-usa/A23.elecS_tech_mapping_cool"]])){
 
-      add_techs <- tibble::as_tibble(gcamdata_files[["/inst/extdata/gcam-usa/calibrated_techs_dispatch_usa"]]) %>%
+      add_techs <- tibble::as_tibble(gcamdata_files[["/inst/extdata/gcam-usa/A23.elecS_tech_mapping_cool"]]) %>%
         dplyr::select(class1 = minicam.energy.input,
                       class2a = technology) %>%
-        dplyr::left_join(tibble::as_tibble(gcamdata_files[["/inst/extdata/gcam-usa/A23.elec_tech_mapping_cool"]]) %>%
-                           dplyr::select(class2a=technology,
-                                         class2 = to.technology)) %>%
+        # dplyr::left_join(tibble::as_tibble(gcamdata_files[["/inst/extdata/gcam-usa/A23.elec_tech_mapping_cool"]]) %>%
+        #                    dplyr::select(class2a=technology,
+        #                                  class2 = to.technology)) %>%
         dplyr::select(class1,class2) %>%
         dplyr::filter(class1!=""); add_techs
 
@@ -1290,7 +1288,7 @@ readgcam <- function(gcamdatabase = NULL,
       }
 
       # US carbon capture
-      tibble::as_tibble(gcamdata_files[["/outputs/L223.TechCarbonCapture_Dispatch"]]) %>%
+      tibble::as_tibble(gcamdata_files[["/outputs/L2233.GlobalTechCapture_elecS_cool_USA"]]) %>%
         dplyr::select(subRegion = region,
                       class1 = subsector,
                       class2 = technology,
@@ -1300,20 +1298,20 @@ readgcam <- function(gcamdatabase = NULL,
                       classLabel2 = "technology",
                       param = paramx,
                       origUnits = "Carbon Capture Rate (fraction)",
-                      region = "USA") %>%
+                      region = "USA") -> tbl_comb
         # US CO2 content
-        dplyr::bind_rows(tibble::as_tibble(gcamdata_files[["/outputs/L2233.GlobalTechCapture_elec_cool"]]) %>%
-                           dplyr::select(class1 = subsector.name,
-                                         class2 = technology,
-                                         origValue = remove.fraction,
-                                         year) %>%
-                           dplyr::mutate(class1 = gsub(" \\(.*","",class1),
-                                         classLabel1 = "subsector",
-                                         classLabel2 = "technology",
-                                         param = paramx,
-                                         subRegion = "Global",
-                                         region = "Global",
-                                         origUnits = "Carbon Capture Rate (fraction)")) -> tbl_comb
+        # dplyr::bind_rows(tibble::as_tibble(gcamdata_files[["/outputs/L2233.GlobalTechCapture_elec_cool"]]) %>%
+        #                    dplyr::select(class1 = subsector.name,
+        #                                  class2 = technology,
+        #                                  origValue = remove.fraction,
+        #                                  year) %>%
+        #                    dplyr::mutate(class1 = gsub(" \\(.*","",class1),
+        #                                  classLabel1 = "subsector",
+        #                                  classLabel2 = "technology",
+        #                                  param = paramx,
+        #                                  subRegion = "Global",
+        #                                  region = "Global",
+        #                                  origUnits = "Carbon Capture Rate (fraction)")) -> tbl_comb
 
       tbl <- tbl_comb %>%
         dplyr::mutate(param = paramx,
